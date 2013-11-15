@@ -1,0 +1,9 @@
+[% FOREACH tweet IN tweets %]
+
+<div class="row">
+  <div class="span10 offset1 well">
+    [% tweet %]
+  </div>
+</div>
+
+[% END %]

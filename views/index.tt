@@ -1,12 +1,13 @@
 <!-- BootStrap NavBar -->
 <div class="navbar">
   <div class="navbar-inner">
-    <div class="container">
-	<h3><a class="brand" href="[% request.uri_base %]"><img src="images/dancer_man.png"> Perl Dancer</a></h3>
-    </div>
+	  <a class="brand" href="[% request.uri_base %]">Crowdtilt Dev Test</a>
+    <ul class="nav">
+      <li><a href="#">Tweets</a></li>
+      <li><a href="#">Intersection</a></li>
+    </ul>
   </div>
 </div>
-
 
 
 <!-- Main content -->

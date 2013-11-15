@@ -4,15 +4,10 @@ use strict;
 use warnings;
 use Cwd;
 use Sys::Hostname;
-use examples::simple_form;
-use examples::navbar_login;
-use examples::tabs;
-use examples::show_file;
-use examples::photo_gallery;
-use examples::markdown;
-use examples::template_plugins;
-use examples::error_handling;
-use examples::dynamic_content;
+use Set::Intersection;
+use Twitter::Client;
+use Twitter::Markup;
+use Data::Dumper;
 
 our $VERSION = '0.1';
 
@@ -20,31 +15,24 @@ get '/' => sub {
     template 'index';
 };
 
-get '/deploy' => sub {
-    template 'deployment_wizard', {
-		directory => getcwd(),
-		hostname  => hostname(),
-		proxy_port=> 8000,
-		cgi_type  => "fast",
-		fast_static_files => 1,
-	};
+get '/tweets/:screen_name' => sub {
+  my @tweets = Twitter::Client::get_tweets(param('screen_name'));
+  @tweets = Twitter::Markup::markup_tweets(@tweets);
+  template 'twitter/tweets' => { tweets => \@tweets };
 };
 
-#The user clicked "updated", generate new Apache/lighttpd/nginx stubs
-post '/deploy' => sub {
-    my $project_dir = param('input_project_directory') || "";
-    my $hostname = param('input_hostname') || "" ;
-    my $proxy_port = param('input_proxy_port') || "";
-    my $cgi_type = param('input_cgi_type') || "fast";
-    my $fast_static_files = param('input_fast_static_files') || 0;
+get '/intersection/:screen_name_1/:screen_name_2' => sub {
+  # Many API call way would be get friends of user1, call friendship_exists(friend[i], user2) but that is awful so we'll not do that. Instead we should just get user1's friends, user2's friends, and do the intersection locally.
+  my @friend_ids_1 = Twitter::Client::get_friends(param('screen_name_1'));
+  my @friend_ids_2 = Twitter::Client::get_friends(param('screen_name_2'));
+  my @intersection_ids = Set::Intersection::get_intersection(\@friend_ids_1, \@friend_ids_2);
+  my @users = Twitter::Client::lookup_users(@intersection_ids);
+  template 'twitter/intersection' => {
+    screen_name_1 => param('screen_name_1'),
+    screen_name_2 => param('screen_name_2'),
+    users => \@users
+  };
 
-    template 'deployment_wizard', {
-		directory => $project_dir,
-		hostname  => $hostname,
-		proxy_port=> $proxy_port,
-		cgi_type  => $cgi_type,
-		fast_static_files => $fast_static_files,
-	};
 };
 
 true;

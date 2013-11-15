@@ -3,7 +3,7 @@
 # all the settings in this file will be loaded at Dancer's startup.
 
 # Your application's name
-appname: "crowdtilt_dev_test"
+appname: "Crowdtilt Dev Test"
 
 # The default layout to use for your application (located in
 # views/layouts/main.tt)
@@ -21,3 +21,4 @@ engines:
      start_tag: '[%'
      end_tag:   '%]'
 
+logger: "devtest.log"
