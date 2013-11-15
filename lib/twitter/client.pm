@@ -10,6 +10,7 @@ use Encode qw(decode encode);
 This has a few helper methods for reaching the twitter API.
 =cut
 
+# These should be secret but it is for a new twitter account I just created and I really dont expect many people to read this code.
 my $TWITTER_CONSUMER_KEY = 'X7yOOilXAvacL8gemR7SGg';
 my $TWITTER_CONSUMER_SECRET = 'BXqUqj4oEtNuPtWBlpQS9ojXOVUuh7sJCJwxih4OLM';
 my $CLIENT = undef;
@@ -132,6 +133,7 @@ sub twitter_client {
 
 # In a real app this would probably want to get OAuth tokens for each logged in user, but in this case I'll just return my own tokens to keep it simple.
 sub get_tokens {
+  # again - prob not great to store in source code, esp public code
   my $token = '2196328135-PQddLsjcNobHpHcs5Gt4M8q75AveRgN61xImxFX';
   my $secret = 'db91hOyX83ZKuTRd4S6jQUTOTl82IOQWOY9DAkfPvkK2q';
   return ($token, $secret);
