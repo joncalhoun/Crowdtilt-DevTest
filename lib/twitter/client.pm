@@ -23,9 +23,9 @@ sub lookup_users {
   my @ids = @_;
   my @users = ();
   # API caps at 100 per req so we need to make sure this is split to groups of 100.
-  for (my $i = 0; $i < scalar(@ids); $i += 3) {
+  for (my $i = 0; $i < scalar(@ids); $i += 100) {
     # inclusive so +99 here, and +100 above.
-    my @id_subset = @ids[$i..($i+2)];
+    my @id_subset = @ids[$i..($i+99)];
     @id_subset = grep defined, @id_subset;
     my @temp_users = lookup_users_limited(@id_subset);
     push(@users, @temp_users);
