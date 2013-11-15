@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 # the order is important
-use crowdtilt_dev_test;
+use dancer_bootstrap_fontawesome_template;
 use Dancer::Test;
 
 route_exists [GET => '/'], 'a route handler is defined for /';
